@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RideGo | Receipt</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: 'Courier New', monospace;
+      background: #020202;
+      color: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: radial-gradient(circle at top, rgba(255, 130, 0, 0.14), transparent 20%),
+                  linear-gradient(180deg, #050505 0%, #0f0a05 100%);
+    }
+
+    .container {
+      width: min(520px, 100%);
+      background: rgba(12, 12, 12, 0.96);
+      border: 2px solid rgba(255, 159, 28, 0.3);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 40px 95px rgba(0, 0, 0, 0.35);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+      border-bottom: 2px dashed rgba(255, 159, 28, 0.25);
+      padding-bottom: 20px;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ff9f1c;
+      letter-spacing: 0.08em;
+      margin: 0 0 12px;
+    }
+
+    .tagline {
+      color: #c4c4c4;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .bill-title {
+      text-align: center;
+      margin: 24px 0;
+      font-size: 1.3rem;
+      color: #ff9f1c;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 159, 28, 0.12);
+      color: #d4d4d4;
+    }
+
+    .bill-row.total {
+      border-bottom: 2px dashed rgba(255, 159, 28, 0.3);
+      padding: 16px 0;
+      margin-top: 8px;
+    }
+
+    .bill-row.total .label {
+      font-weight: 800;
+      color: #ff9f1c;
+      font-size: 1.1rem;
+    }
+
+    .bill-row.total .value {
+      font-weight: 800;
+      color: #ff9f1c;
+      font-size: 1.3rem;
+    }
+
+    .label {
+      color: #c4c4c4;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .value {
+      text-align: right;
+      color: #ffffff;
+      font-weight: 600;
+      word-break: break-word;
+      max-width: 280px;
+    }
+
+    .details-section {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(255, 140, 0, 0.08);
+      border: 1px solid rgba(255, 159, 28, 0.18);
+      border-radius: 12px;
+    }
+
+    .detail-item {
+      margin-bottom: 12px;
+    }
+
+    .detail-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-label {
+      color: #ff9f1c;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .detail-value {
+      color: #e8e8e8;
+      font-size: 0.95rem;
+      margin-left: 8px;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #ff8c00 0%, #ff5500 100%);
+      color: #ffffff;
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255, 140, 0, 0.24);
+    }
+
+    .button-secondary {
+      background: rgba(255, 159, 28, 0.12);
+      color: #ff9f1c;
+      border: 1px solid rgba(255, 159, 28, 0.25);
+    }
+
+    .button-secondary:hover {
+      background: rgba(255, 159, 28, 0.2);
+      box-shadow: 0 8px 16px rgba(255, 140, 0, 0.16);
+    }
+
+    .redirect-message {
+      text-align: center;
+      margin-top: 24px;
+      color: #c4c4c4;
+      font-size: 0.9rem;
+    }
+
+    .redirect-message.active {
+      color: #ffd8a8;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      color: #888;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 159, 28, 0.12);
+      padding-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">🚕 RideGo</div>
+      <p class="tagline">Professional Ride Booking Service</p>
+    </div>
+
+    <div class="bill-title">Receipt</div>
+
+    <div class="bill-row">
+      <span class="label">Pickup Location</span>
+      <span class="value" id="pickupDisplay">—</span>
+    </div>
+
+    <div class="bill-row">
+      <span class="label">Drop Location</span>
+      <span class="value" id="dropDisplay">—</span>
+    </div>
+
+    <div class="bill-row">
+      <span class="label">Distance</span>
+      <span class="value" id="distanceDisplay">—</span>
+    </div>
+
+    <div class="bill-row total">
+      <span class="label">Total Fare</span>
+      <span class="value">Rs <span id="priceDisplay">0</span></span>
+    </div>
+
+    <div class="details-section">
+      <div class="detail-item">
+        <span class="detail-label">✓ Booking Confirmed</span>
+        <span class="detail-value">Your ride has been successfully booked</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">📍 Real-time Tracking</span>
+        <span class="detail-value">Driver location updated every 3 seconds</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">💳 Payment</span>
+        <span class="detail-value">Pay cash on completion</span>
+      </div>
+    </div>
+
+    <div class="button-group" id="buttonGroup">
+      <a href="index.html" class="button button-primary">Back to Booking</a>
+      <a href="main.html" class="button button-secondary">View Drivers</a>
+    </div>
+
+    <div class="button-group">
+      <a href="driver.html" class="button button-secondary">Driver Panel</a>
+      <a href="home.html" class="button button-secondary">Home</a>
+    </div>
+
+    <div class="redirect-message" id="redirectMsg"></div>
+
+    <div class="footer" id="footer">
+      © 2026 RideGo. Thank you for booking with us.
+    </div>
+  </div>
+
+  <script>
+    // Get booking data from localStorage or from query parameters
+    function getBookingData() {
+      const params = new URLSearchParams(window.location.search);
+      
+      const pickup = params.get('pickup') || localStorage.getItem('lastPickup') || 'Not specified';
+      const drop = params.get('drop') || localStorage.getItem('lastDrop') || 'Not specified';
+      const price = params.get('price') || localStorage.getItem('lastPrice') || '0';
+      const km = params.get('km') || localStorage.getItem('lastKm') || '0';
+      const isDriver = params.get('driver') === 'true';
+
+      return { pickup, drop, price, km, isDriver };
+    }
+
+    // Display booking details
+    function displayBill() {
+      const data = getBookingData();
+      
+      document.getElementById('pickupDisplay').textContent = data.pickup;
+      document.getElementById('dropDisplay').textContent = data.drop;
+      document.getElementById('distanceDisplay').textContent = data.km + ' km';
+      document.getElementById('priceDisplay').textContent = data.price;
+
+      // Update header and message for driver
+      if (data.isDriver) {
+        document.querySelector('.logo').innerHTML = '<img src="logo.png" alt="RideGo" style="height:28px; width:auto; display:inline-block; margin-right:8px;">RideGo Driver';
+        document.querySelector('.tagline').textContent = 'Ride Acceptance Confirmation';
+        
+        // Change button group text for driver
+        const buttonGroup = document.getElementById('buttonGroup');
+        buttonGroup.innerHTML = `
+          <a href="driver.html" class="button button-primary">Back to Rides</a>
+          <a href="main.html" class="button button-secondary">View Map</a>
+        `;
+        
+        // Update detail items for driver
+        const detailsSection = document.querySelector('.details-section');
+        detailsSection.innerHTML = `
+          <div class="detail-item">
+            <span class="detail-label">✓ Ride Accepted</span>
+            <span class="detail-value">You have successfully accepted this ride</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">📍 Pickup Point</span>
+            <span class="detail-value">${data.pickup}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">🏁 Drop Point</span>
+            <span class="detail-value">${data.drop}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">💰 Fare Amount</span>
+            <span class="detail-value">Rs ${data.price}</span>
+          </div>
+        `;
+      }
+
+      // Store current booking for reference
+      localStorage.setItem('lastPickup', data.pickup);
+      localStorage.setItem('lastDrop', data.drop);
+      localStorage.setItem('lastPrice', data.price);
+      localStorage.setItem('lastKm', data.km);
+
+      // Update footer for driver
+      if (data.isDriver) {
+        document.getElementById('footer').textContent = '© 2026 RideGo. Safe travels with your passenger.';
+      }
+    }
+
+    // Auto-redirect after 5 seconds (optional - can be disabled)
+    function startAutoRedirect() {
+      const msgEl = document.getElementById('redirectMsg');
+      let countdown = 5;
+
+      msgEl.textContent = `Auto-redirecting to booking in ${countdown}s (you can navigate manually above)`;
+      msgEl.classList.add('active');
+
+      setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+          msgEl.textContent = `Auto-redirecting to booking in ${countdown}s (you can navigate manually above)`;
+        } else {
+          msgEl.classList.remove('active');
+          msgEl.textContent = '';
+        }
+      }, 1000);
+    }
+
+    // Initialize
+    displayBill();
+    startAutoRedirect();
+  </script>
+</body>
+</html>

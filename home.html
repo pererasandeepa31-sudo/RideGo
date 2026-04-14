@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RideGo - Smart Ride Booking</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+body{
+background:#030303;
+color:#f8f8f8;
+}
+
+/* NAVBAR */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:#090909;
+color:#f8f8f8;
+border-bottom:1px solid rgba(255, 140, 0, 0.18);
+}
+.navbar h1{
+color:#ff9f1c;
+}
+.navbar ul{
+display:flex;
+gap:20px;
+list-style:none;
+}
+.navbar ul li{
+cursor:pointer;
+color:#d4d4d4;
+transition:color 0.2s ease;
+}
+.navbar ul li:hover{
+color:#ff9f1c;
+}
+
+/* HERO */
+.hero{
+height:85vh;
+background:linear-gradient(180deg, rgba(0,0,0,0.42), rgba(0,0,0,0.82)),
+url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d') center/cover;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+}
+.hero::after{
+content:"";
+position:absolute;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.5);
+}
+.hero-content{
+position:relative;
+text-align:center;
+color:white;
+max-width:700px;
+padding:0 20px;
+}
+.hero-content h2{
+font-size:50px;
+line-height:1.05;
+}
+.hero-content p{
+margin-top:10px;
+font-size:18px;
+color:#dcdcdc;
+}
+.btn{
+display:inline-block;
+position:relative;
+z-index:2;
+margin-top:20px;
+padding:12px 25px;
+background:#ff8c00;
+color:#080808;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+text-decoration:none;
+box-shadow:0 18px 45px rgba(255, 140, 0, 0.22);
+}
+
+/* BOOKING BOX */
+.booking{
+background:#090909;
+margin:-80px auto 40px;
+width:90%;
+max-width:900px;
+padding:25px;
+border-radius:18px;
+box-shadow:0 20px 50px rgba(0,0,0,0.35);
+display:grid;
+grid-template-columns:1fr 1fr 1fr 140px;
+gap:14px;
+}
+.booking input{
+padding:14px;
+border:1px solid rgba(255, 140, 0, 0.18);
+border-radius:12px;
+background:#111111;
+color:#f5f5f5;
+}
+.booking button{
+background:#ff8c00;
+border:none;
+border-radius:12px;
+color:#080808;
+cursor:pointer;
+font-weight:bold;
+padding:14px;
+box-shadow:0 12px 28px rgba(255, 140, 0, 0.2);
+}
+
+/* FEATURES */
+.features{
+padding:60px 40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+.card{
+background:#0d0d0d;
+padding:24px;
+border-radius:16px;
+box-shadow:0 20px 45px rgba(0,0,0,0.25);
+text-align:center;
+border:1px solid rgba(255, 140, 0, 0.12);
+}
+.card img{
+width:80px;
+height:80px;
+object-fit:cover;
+border-radius:50%;
+margin-bottom:18px;
+}
+.card h3{
+margin:12px 0 10px;
+color:#ffffff;
+}
+.card p{
+color:#c4c4c4;
+}
+
+/* DRIVER SECTION */
+.drivers{
+padding:50px 40px;
+background:#080808;
+}
+.driver-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+.driver{
+background:#111111;
+padding:24px;
+border-radius:18px;
+text-align:center;
+border:1px solid rgba(255, 140, 0, 0.12);
+box-shadow:0 18px 40px rgba(0,0,0,0.25);
+}
+.driver h3{
+color:#ffffff;
+margin:18px 0 8px;
+}
+.driver p{
+color:#c4c4c4;
+}
+.driver img{
+width:100px;
+height:100px;
+border-radius:50%;
+object-fit:cover;
+}
+
+/* FOOTER */
+footer{
+background:#090909;
+color:#d4d4d4;
+text-align:center;
+padding:20px;
+margin-top:40px;
+border-top:1px solid rgba(255, 140, 0, 0.18);
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<a href="home.html" style="display:flex; align-items:center; gap:8px; text-decoration:none;"><img src="logo.png" alt="RideGo" style="height:40px; width:auto;"><span style="color:#ff9f1c; font-weight:bold; font-size:1.2rem;">RideGo</span></a>
+<ul>
+<li><a href="home.html">Home</a></li>
+<li><a href="index.html">Book</a></li>
+<li><a href="driver.html">Drivers</a></li>
+<li><a href="ideas.html">Ideas</a>="ideas.html">Ideas</a></li>
+</ul>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+<div class="hero-content">
+<h2>Book Your Ride Instantly</h2>
+<p>Fast • Safe • Affordable rides at your fingertips</p>
+<a href="index.html" class="btn">Book Now</a>
+</div>
+</div>
+
+<!-- BOOKING -->
+<div class="booking">
+<input type="text" placeholder="Pickup Location">
+<input type="text" placeholder="Drop Location">
+<input type="date">
+<button>Search</button>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+<div class="card">
+<img src="https://cdn-icons-png.flaticon.com/512/744/744465.png">
+<h3>Fast Pickup</h3>
+<p>Get driver within minutes anywhere.</p>
+</div>
+<div class="card">
+<img src="https://cdn-icons-png.flaticon.com/512/3202/3202926.png">
+<h3>Safe Travel</h3>
+<p>Verified drivers & secure rides.</p>
+</div>
+<div class="card">
+<img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">
+<h3>Low Price</h3>
+<p>Affordable pricing for everyone.</p>
+</div>
+</div>
+
+<!-- DRIVERS -->
+<div class="drivers">
+<h2 style="text-align:center;margin-bottom:30px;">Top Drivers</h2>
+<div class="driver-grid">
+
+<div class="driver">
+<img src="https://tse2.mm.bing.net/th/id/OIP.YdpWUKOQqFWZpyUvlnPI3wAAAA?rs=1&pid=ImgDetMain&o=7&rm=3">
+<h3>Kamal Perera</h3>
+<p>Car - WP Three wheeler 1234</p>
+</div>
+
+<div class="driver">
+<img src="https://tse4.mm.bing.net/th/id/OIP.OmE0ZwwwRI3XFldiMn5WOgHaE7?rs=1&pid=ImgDetMain&o=7&rm=3">
+<h3>Nimal Fernando</h3>
+<p>Van - WP Car 5678</p>
+</div>
+
+<div class="driver">
+<img src="https://th.bing.com/th/id/OIP.xFnG6rVlOklqZftaKkEyrwHaFY?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3">
+<h3>Sunil Silva</h3>
+<p>Bike - WP Truck 1122</p>
+</div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+<p>© 2026 RideGo. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RideGo Ideas</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, Arial, sans-serif;
+      background: #020202;
+      color: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(255, 130, 0, 0.14), transparent 18%),
+                  linear-gradient(180deg, #050505 0%, #110f0c 100%);
+      color: #e5e7eb;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 159, 28, 0.18);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #ff9f1c;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-left: 18px;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ff9f1c;
+    }
+
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      color: #ffffff;
+    }
+
+    .hero p {
+      margin: 16px 0 0;
+      max-width: 760px;
+      color: #cbd5e1;
+      line-height: 1.8;
+    }
+
+    .ideas-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .idea-card {
+      background: rgba(15, 15, 15, 0.96);
+      border: 1px solid rgba(255, 159, 28, 0.16);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .idea-card h2 {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+      color: #ff9f1c;
+    }
+
+    .idea-card p {
+      margin: 0;
+      color: #d4d4d4;
+      line-height: 1.75;
+    }
+
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a href="home.html" class="brand" style="display:flex; align-items:center; gap:8px;"><img src="logo.png" alt="RideGo" style="height:32px; width:auto;"><span>RideGo Ideas</span></a>
+      <nav>
+        <a href="home.html">Home</a>
+        <a href="index.html">Book</a>
+        <a href="driver.html">Driver</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>RideGo Ideas and Validation</h1>
+      <p>මෙහි ඔබට අමතර වැඩිදියුණු කිරීම්, validation, සහ mobile app වෙත පරිවර්තනය කිරීම සඳහා අදහස් තියෙනවා. ඔබගෙ project එකට සාර්ථකව දියුණු කිරීම සඳහා මේවා යොදාගන්න.</p>
+    </section>
+
+    <section class="ideas-grid">
+      <div class="idea-card">
+        <h2>1. Form Validation</h2>
+        <p>Login සහ Register පෝරම වල phone number, name වැනි අත්‍යවශ්‍ය ක්ෂේත්‍ර වලට validation එක් කරන්න. OAuth හැඳුනට validate කරන්න, empty values සහ invalid phone formats වළකන්න.</p>
+      </div>
+
+      <div class="idea-card">
+        <h2>2. Driver / User Redirects</h2>
+        <p>Driver login කරන විට driver.html වෙත යවන්න. user login කරන විට home.html හෝ booking dashboard එකට යවන්න. මේක user experience එකට වඩා හොඳයි.</p>
+      </div>
+
+      <div class="idea-card">
+        <h2>3. Auto-generated Bill Page</h2>
+        <p>Book Ride submit කරන එකෙන් පසු bill.html එකට redirect වෙලා pickup, drop, km, price වැනි detail ටිකක් පෙන්නන්න. එය receipt එකක් වගේ සේවය කරයි.</p>
+      </div>
+
+      <div class="idea-card">
+        <h2>4. Mobile App Packaging</h2>
+        <p>Capacitor හෝ Cordova භාවිතයෙන් මේ වබ් app එක Android APK එකට package කරන්න. එමගින් phone එකෙන් app ලෙස ක්‍රියාත්මක කරන්න පුළුවන්.</p>
+      </div>
+
+      <div class="idea-card">
+        <h2>5. Admin Dashboard</h2>
+        <p>main.html එකට users list, drivers list, live location tracking සහ pending bookings dashboard එකක් එක් කරන්න. admin panel එකෙන් සියලු activity බලන්න.</p>
+      </div>
+    </section>
+
+    <p class="footer">© 2026 RideGo. Ideas page for project development.</p>
+  </div>
+</body>
+</html>

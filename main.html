@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RideGo Admin | Users & Drivers</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, Arial, sans-serif;
+      background: #020202;
+      color: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(255, 130, 0, 0.14), transparent 20%),
+                  linear-gradient(180deg, #050505 0%, #0f0a05 100%);
+    }
+
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 159, 28, 0.12);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #ff9f1c;
+      text-decoration: none;
+    }
+
+    .brand .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff9f1c;
+      box-shadow: 0 0 20px rgba(255, 159, 28, 0.35);
+    }
+
+    header nav {
+      display: flex;
+      gap: 20px;
+      font-size: 0.95rem;
+    }
+
+    header nav a {
+      color: #d4d4d4;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    header nav a:hover {
+      color: #ff9f1c;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    #map {
+      width: 100%;
+      height: 600px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 159, 28, 0.12);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .sidebar-section {
+      background: rgba(12, 12, 12, 0.96);
+      border: 1px solid rgba(255, 159, 28, 0.12);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .sidebar-section h3 {
+      margin: 0 0 12px;
+      font-size: 0.95rem;
+      color: #ff9f1c;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .list-item {
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255, 140, 0, 0.08);
+      border: 1px solid rgba(255, 159, 28, 0.18);
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: #d4d4d4;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .list-item:hover {
+      background: rgba(255, 140, 0, 0.18);
+      color: #fff8f0;
+    }
+
+    .list-item strong {
+      color: #ff9f1c;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: rgba(255, 140, 0, 0.12);
+      border: 1px solid rgba(255, 159, 28, 0.2);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ff9f1c;
+    }
+
+    .stat-card .label {
+      font-size: 0.75rem;
+      color: #c4c4c4;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    .footer {
+      margin-top: 36px;
+      text-align: center;
+      color: #c4c4c4;
+      font-size: 0.95rem;
+      opacity: 0.92;
+    }
+
+    .no-data {
+      color: #c4c4c4;
+      font-size: 0.9rem;
+      padding: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        max-height: 400px;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 159, 28, 0.08);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 140, 0, 0.3);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 140, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a href="home.html" class="brand" style="display:flex; align-items:center; gap:8px;">
+        <img src="logo.png" alt="RideGo" style="height:32px; width:auto;">
+        RideGo Admin
+      </a>
+      <nav>
+        <a href="home.html">Home</a>
+        <a href="index.html">Booking</a>
+        <a href="driver.html">Driver Panel</a>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div id="map"></div>
+
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <div class="stats">
+            <div class="stat-card">
+              <div class="number" id="userCount">0</div>
+              <div class="label">Users</div>
+            </div>
+            <div class="stat-card">
+              <div class="number" id="driverCount">0</div>
+              <div class="label">Drivers</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>👥 Active Users</h3>
+          <div id="usersList" class="list-container">
+            <div class="no-data">Loading users...</div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>🚕 Active Drivers</h3>
+          <div id="driversList" class="list-container">
+            <div class="no-data">Loading drivers...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer">© 2026 RideGo. Real-time tracking dashboard.</p>
+  </div>
+
+  <script>
+    const map = L.map('map').setView([6.9271, 79.8612], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    let userMarkers = {};
+    let driverMarkers = {};
+    let allUsers = [];
+    let allDrivers = [];
+
+    function loadUsers() {
+      fetch('http://localhost:3000/bookings')
+        .then(r => r.json())
+        .then(bookings => {
+          const uniqueUsers = new Map();
+          bookings.forEach(booking => {
+            if (!uniqueUsers.has(booking.id)) {
+              uniqueUsers.set(booking.id, {
+                id: booking.id,
+                pickup: booking.pickup,
+                drop: booking.drop,
+                type: 'User'
+              });
+            }
+          });
+          allUsers = Array.from(uniqueUsers.values());
+          updateUsersList();
+        })
+        .catch(() => {
+          document.getElementById('usersList').innerHTML = '<div class="no-data">Unable to load users</div>';
+        });
+    }
+
+    function loadDrivers() {
+      fetch('http://localhost:3000/bookings')
+        .then(r => r.json())
+        .then(bookings => {
+          const uniqueDrivers = new Map();
+          bookings.forEach(booking => {
+            if (booking.driver && !uniqueDrivers.has(booking.driver.id)) {
+              uniqueDrivers.set(booking.driver.id, {
+                id: booking.driver.id,
+                name: booking.driver.name || 'Driver ' + booking.driver.id,
+                status: booking.status,
+                type: 'Driver'
+              });
+            }
+          });
+          allDrivers = Array.from(uniqueDrivers.values());
+          updateDriversList();
+        })
+        .catch(() => {
+          document.getElementById('driversList').innerHTML = '<div class="no-data">Unable to load drivers</div>';
+        });
+    }
+
+    function updateUsersList() {
+      const container = document.getElementById('usersList');
+      document.getElementById('userCount').textContent = allUsers.length;
+
+      if (allUsers.length === 0) {
+        container.innerHTML = '<div class="no-data">No users online</div>';
+        return;
+      }
+
+      container.innerHTML = allUsers.map(user => `
+        <div class="list-item" onclick="focusUser('${user.id}')">
+          <strong>📍 ${user.pickup.substring(0, 18)}</strong>
+          ${user.drop.substring(0, 14)}
+        </div>
+      `).join('');
+    }
+
+    function updateDriversList() {
+      const container = document.getElementById('driversList');
+      document.getElementById('driverCount').textContent = allDrivers.length;
+
+      if (allDrivers.length === 0) {
+        container.innerHTML = '<div class="no-data">No drivers online</div>';
+        return;
+      }
+
+      container.innerHTML = allDrivers.map(driver => `
+        <div class="list-item" onclick="focusDriver('${driver.id}')">
+          <strong>🚕 ${driver.name}</strong>
+          Status: ${driver.status}
+        </div>
+      `).join('');
+    }
+
+    function updateDriverLocations() {
+      fetch('http://localhost:3000/location')
+        .then(r => r.json())
+        .then(data => {
+          if (driverMarkers['current']) {
+            driverMarkers['current'].setLatLng([data.lat, data.lng]);
+          } else {
+            driverMarkers['current'] = L.marker([data.lat, data.lng], {
+              icon: L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34]
+              })
+            }).addTo(map).bindPopup('🚕 Driver Location');
+          }
+        })
+        .catch(() => {});
+    }
+
+    function focusUser(userId) {
+      const user = allUsers.find(u => u.id === userId);
+      if (user) {
+        map.setView([6.9271 + Math.random() * 0.05, 79.8612 + Math.random() * 0.05], 15);
+      }
+    }
+
+    function focusDriver(driverId) {
+      fetch('http://localhost:3000/location')
+        .then(r => r.json())
+        .then(data => {
+          map.setView([data.lat, data.lng], 16);
+        });
+    }
+
+    function initialize() {
+      loadUsers();
+      loadDrivers();
+      updateDriverLocations();
+      
+      setInterval(loadUsers, 5000);
+      setInterval(loadDrivers, 5000);
+      setInterval(updateDriverLocations, 3000);
+    }
+
+    initialize();
+  </script>
+</body>
+</html>

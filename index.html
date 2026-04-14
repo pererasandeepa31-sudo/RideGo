@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RideGo | Smart Ride Booking</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, Arial, sans-serif;
+      background: #020202;
+      color: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(255, 130, 0, 0.18), transparent 28%),
+                  linear-gradient(180deg, #050505 0%, #110f0c 100%);
+      color: #ffffff;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ff9f1c;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .brand .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff9f1c;
+      box-shadow: 0 0 20px rgba(255, 159, 28, 0.35);
+    }
+
+    header nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+      opacity: 0.88;
+    }
+
+    header nav a {
+      color: #e5e7eb;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    header nav a:hover {
+      color: #ff9f1c;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .hero-copy {
+      max-width: 560px;
+    }
+
+    .hero-copy h1 {
+      margin: 0;
+      font-size: clamp(2.75rem, 4vw, 4.5rem);
+      line-height: 0.97;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+    }
+
+    .hero-copy p {
+      margin: 22px 0 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #d4d4d4;
+      max-width: 520px;
+    }
+
+    .hero-copy .actions {
+      margin-top: 28px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .button-primary,
+    .button-secondary {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 26px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #ff8c00 0%, #ff5500 100%);
+      color: #ffffff;
+      box-shadow: 0 18px 40px rgba(255, 140, 0, 0.22);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 159, 28, 0.18);
+    }
+
+    .button-primary:hover,
+    .button-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 32px rgba(255, 140, 0, 0.25);
+    }
+
+    .panel {
+      background: rgba(18, 18, 18, 0.96);
+      border: 1px solid rgba(255, 159, 28, 0.12);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    .panel h2 {
+      margin: 0 0 16px;
+      font-size: 1.6rem;
+      color: #ffffff;
+    }
+
+    .panel p {
+      color: #cbd5e1;
+      margin-bottom: 24px;
+      line-height: 1.75;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 16px;
+    }
+
+    .field-group label {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: #d4d4d4;
+    }
+
+    .field-group input {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 159, 28, 0.18);
+      background: rgba(20, 20, 20, 0.88);
+      color: #ffffff;
+      padding: 14px 16px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field-group input:focus {
+      border-color: #ff8c00;
+      box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.12);
+    }
+
+    .panel button {
+      margin-top: 12px;
+      width: 100%;
+      background: linear-gradient(135deg, #ff8c00 0%, #ff5500 100%);
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 18px;
+      padding: 14px 18px;
+    }
+
+    #map {
+      width: 100%;
+      min-height: 360px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 159, 28, 0.18);
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 159, 28, 0.12);
+      color: #ffe8c2;
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      margin-top: 42px;
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      opacity: 0.92;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-copy h1 {
+        font-size: 2.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a href="#" class="brand" style="display:flex; align-items:center; gap:8px;">
+        <img src="logo.png" alt="RideGo" style="height:32px; width:auto;">
+        RideGo
+      </a>
+      <nav>
+        <a href="#booking">Book</a>
+        <a href="#map">Track</a>
+        <a href="#features">Features</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p style="color:#ff9f1c; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:16px;">Fast, safe and modern ride booking</p>
+        <h1>Book your next ride in seconds.</h1>
+        <p>RideGo brings you real-time driver tracking, transparent pricing, and instant booking — all from one polished dashboard.</p>
+        <div class="actions">
+          <a href="#booking" class="button-primary">Start Booking</a>
+          <a href="#map" class="button-secondary">View Live Map</a>
+        </div>
+      </div>
+
+      <div class="panel" id="booking">
+        <h2>Book a ride</h2>
+        <p>Enter your pickup and dropoff locations, then get an instant fare estimate.</p>
+        <div class="field-group">
+          <label>
+            Pickup Location
+            <input id="pickup" type="text" placeholder="Enter pickup address" autocomplete="off">
+          </label>
+          <label>
+            Drop Location
+            <input id="drop" type="text" placeholder="Enter drop address" autocomplete="off">
+          </label>
+          <label>
+            Distance (km)
+            <input id="km" type="number" min="0" placeholder="Estimated kilometers">
+          </label>
+        </div>
+        <button onclick="book()">Book Ride</button>
+        <div id="status" class="status-pill">Ready to book your next ride.</div>
+      </div>
+    </section>
+
+    <section style="margin-top: 40px;" id="features">
+      <div id="map"></div>
+    </section>
+
+    <p class="footer">© 2026 RideGo. Designed for seamless booking and driver tracking.</p>
+  </div>
+
+  <script>
+    var map = L.map('map').setView([6.9271, 79.8612], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    let driverMarker;
+
+    function book() {
+      fetch('http://localhost:3000/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pickup: pickup.value,
+          drop: drop.value,
+          km: Number(km.value)
+        })
+      })
+      .then(r => r.json())
+      .then(d => {
+        status.innerHTML = '💰 Price: Rs ' + d.price + '<br>🚗 Booking confirmed...';
+        
+        // Redirect to bill.html with booking details
+        const billUrl = `bill.html?pickup=${encodeURIComponent(pickup.value)}&drop=${encodeURIComponent(drop.value)}&price=${d.price}&km=${km.value}`;
+        setTimeout(() => {
+          window.location.href = billUrl;
+        }, 1000);
+      })
+      .catch(() => {
+        status.innerHTML = '⚠️ Unable to connect to booking service.';
+      });
+    }
+
+    setInterval(() => {
+      fetch('http://localhost:3000/location')
+        .then(r => r.json())
+        .then(d => {
+          if (!driverMarker) {
+            driverMarker = L.marker([d.lat, d.lng]).addTo(map).bindPopup('🚕 Driver');
+          } else {
+            driverMarker.setLatLng([d.lat, d.lng]);
+          }
+        });
+    }, 3000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+{
+  "users": [
+    {
+      "type": "user",
+      "name": "sandeepa",
+      "phone": "0776494915"
+    },
+    {
+      "type": "user",
+      "phone": ""
+    },
+    {
+      "type": "user",
+      "name": "",
+      "phone": ""
+    },
+    {
+      "type": "user",
+      "name": "mudith sandeepa perera",
+      "phone": "0778123046"
+    },
+    {
+      "type": "user",
+      "name": "sandeepa",
+      "phone": "0778123046"
+    },
+    {
+      "type": "user",
+      "name": "sandeepa",
+      "phone": "0778123046"
+    },
+    {
+      "type": "user",
+      "name": "sandeepa",
+      "phone": "0776494915"
+    }
+  ],
+  "drivers": [
+    {
+      "type": "driver",
+      "name": "mudith sandeepa perera",
+      "phone": "0778123046"
+    },
+    {
+      "type": "driver",
+      "name": "mudith sandeepa perera",
+      "phone": "0758252502"
+    },
+    {
+      "type": "driver",
+      "name": "mudith sandeepa perera",
+      "phone": "0758252502"
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1776138305481,
+      "pickup": "kanndy",
+      "drop": "colombo",
+      "km": 147,
+      "price": 36750,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776138314202,
+      "pickup": "kanndy",
+      "drop": "colombo",
+      "km": 147,
+      "price": 36750,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776138406386,
+      "pickup": "nugawela",
+      "drop": "bokkawala",
+      "km": 20,
+      "price": 5000,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776138407717,
+      "pickup": "nugawela",
+      "drop": "bokkawala",
+      "km": 20,
+      "price": 5000,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776138432121,
+      "pickup": "nugawela",
+      "drop": "bokkawala",
+      "km": 20,
+      "price": 5000,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776138433262,
+      "pickup": "nugawela",
+      "drop": "bokkawala",
+      "km": 20,
+      "price": 5000,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776140511413,
+      "pickup": "kandy",
+      "drop": "galle",
+      "km": 147,
+      "price": 36750,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776147716384,
+      "pickup": "kandy",
+      "drop": "galle",
+      "km": 147,
+      "price": 36750,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776150445558,
+      "pickup": "bokkaWAla",
+      "drop": "kandy",
+      "km": 52,
+      "price": 13000,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776150602137,
+      "pickup": "kandy",
+      "drop": "galle",
+      "km": 147,
+      "price": 36750,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776150691752,
+      "pickup": "kaNDY",
+      "drop": "GALLE",
+      "km": 147,
+      "price": 36750,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776150962156,
+      "pickup": "Galle",
+      "drop": "KAndy",
+      "km": 147,
+      "price": 36750,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776152185765,
+      "pickup": "",
+      "drop": "",
+      "km": 5,
+      "price": 1250,
+      "status": "pending"
+    },
+    {
+      "id": 1776152186698,
+      "pickup": "",
+      "drop": "",
+      "km": 5,
+      "price": 1250,
+      "status": "pending"
+    },
+    {
+      "id": 1776152221397,
+      "pickup": "galle",
+      "drop": "colombo",
+      "km": 80,
+      "price": 20000,
+      "status": "accepted",
+      "driver": {
+        "name": "RideGo Driver",
+        "phone": "0770000000",
+        "vehicle": "CAB-1234"
+      }
+    },
+    {
+      "id": 1776154249654,
+      "pickup": "kandy",
+      "drop": "galle",
+      "km": 147,
+      "price": 36750,
+      "status": "pending"
+    }
+  ],
+  "driverLocation": {
+    "lat": 7.389325,
+    "lng": 80.559229
+  }
+}
